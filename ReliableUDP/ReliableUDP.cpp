@@ -16,6 +16,9 @@
 using namespace std;
 using namespace net;
 
+int increment = 1;
+
+int packetCount = 0;
 const int ServerPort = 30000;
 const int ClientPort = 30001;
 const int ProtocolId = 0x11223344;
@@ -205,10 +208,13 @@ int main(int argc, char* argv[])
 
 		while (sendAccumulator > 1.0f / sendRate)
 		{
+			
 			unsigned char packet[PacketSize];
 			memset(packet, 0, sizeof(packet));
+			snprintf((char*)packet, sizeof(packet), "Hello World <<%d>>", increment);
 			connection.SendPacket(packet, sizeof(packet));
 			sendAccumulator -= 1.0f / sendRate;
+			increment++;
 		}
 
 		while (true)
@@ -217,9 +223,10 @@ int main(int argc, char* argv[])
 			int bytes_read = connection.ReceivePacket(packet, sizeof(packet));
 			if (bytes_read == 0)
 				break;
+			printf("%s - received packet\n", packet);
 		}
 
-		// show packets that were acked this frame
+		
 
 #ifdef SHOW_ACKS
 		unsigned int* acks = NULL;
