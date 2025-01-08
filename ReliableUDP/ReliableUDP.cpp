@@ -132,6 +132,7 @@ int main(int argc, char* argv[])
 	if (argc >= 2)
 	{
 		int a, b, c, d;
+#pragma warning(suppress : 4996) 
 		if (sscanf(argv[1], "%d.%d.%d.%d", &a, &b, &c, &d))
 		{
 			mode = Client;
@@ -244,6 +245,7 @@ int main(int argc, char* argv[])
 		while (statsAccumulator >= 0.25f && connection.IsConnected())
 		{
 			float rtt = connection.GetReliabilitySystem().GetRoundTripTime();
+
 
 			unsigned int sent_packets = connection.GetReliabilitySystem().GetSentPackets();
 			unsigned int acked_packets = connection.GetReliabilitySystem().GetAckedPackets();
